@@ -1,48 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 
-function DataFetcher() {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("https://jsonplaceholder.typicode.com/posts/1");
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const result = await response.json();
-        setData(result);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []); // Run once on mount
-
-  if (loading) {
-    return <div>Loading data...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
+// ChildComponent receives data from ParentComponent via props
+function ChildComponent(props) {
   return (
     <div>
-      <h1>Fetched Data</h1>
-      {data && (
-        <div>
-          <h2>{data.title}</h2>
-          <p>{data.body}</p>
-        </div>
-      )}
+      <h3>Child Component</h3>
+      <p>
+        Data received from parent: <strong>{props.message}</strong>
+      </p>
     </div>
   );
 }
 
-export default DataFetcher;
+// ParentComponent passes data to ChildComponent via props
+function ParentComponent() {
+  const dataToPass = "Hello from Parent!";
+
+  return (
+    <div>
+      <h2>Parent Component</h2>
+      <ChildComponent message={dataToPass} />
+    </div>
+  );
+}
+
+// App component renders the ParentComponent
+function App() {
+  return <ParentComponent />;
+}
+
+// Render the App component to the DOM
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+
