@@ -1,36 +1,27 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-
-// ChildComponent receives data from ParentComponent via props
-function ChildComponent(props) {
-  return (
-    <div>
-      <h3>Child Component</h3>
-      <p>
-        Data received from parent: <strong>{props.message}</strong>
-      </p>
-    </div>
-  );
+import React, { useState } from 'react';
+function CounterButton() {
+// Declare a state variable 'count' and a setter function 'setCount'
+// Initialize 'count'to 0
+const [count, setCount] = useState(0);
+// Function to increment the count
+const incrementCount = () =>{
+setCount(count + 1);
+};
+// Function to decrement the count
+const decrementCount = () =>{
+setCount(count - 1);
+};
+// Function to reset the count
+const resetCount = () =>{
+setCount(0);
+};
+return (
+<div>
+<h1>Counter: {count}</h1>
+<button onClick={incrementCount}>Increment</button>
+<button onClick={decrementCount}>Decrement</button>
+<button onClick={resetCount}>Reset</button>
+</div>
+);
 }
-
-// ParentComponent passes data to ChildComponent via props
-function ParentComponent() {
-  const dataToPass = "Hello from Parent!";
-
-  return (
-    <div>
-      <h2>Parent Component</h2>
-      <ChildComponent message={dataToPass} />
-    </div>
-  );
-}
-
-// App component renders the ParentComponent
-function App() {
-  return <ParentComponent />;
-}
-
-// Render the App component to the DOM
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
-
+export default CounterButton;
